@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-07T22:01:06.175939+00:00",
+  "timestamp": "2020-04-08T18:16:20.635274+00:00",
   "repo": "WICG/webpackage",
   "labels": [
     {
@@ -8590,7 +8590,7 @@
       "labels": [],
       "body": "I have been trying to create my own web bundles (with both gen-bundle and the JS encoder)\r\nand I noticed that sometimes Chrome (both 80 release and 83.0.4102.0 Win x64) rejects the bundle with ERR_INVALID_WEBBUNDLE (no further info in console or devtools)\r\n\r\nAfter fiddling with it a bit, it seems that Chrome is very picky about the order the exchanges appear in.\r\nI am sure that its not the content, since it is reproducible with just changing a single file name.\r\nIf I sort the result URLs first by length and then lexically everything works fine.\r\n\r\nNot sure if this is the right location to report this since it might be Chromium related - but if anyone is interested I can provide more details and a minimal example\r\n",
       "createdAt": "2020-04-06T14:08:39Z",
-      "updatedAt": "2020-04-07T08:46:03Z",
+      "updatedAt": "2020-04-08T08:44:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -8606,6 +8606,20 @@
           "body": "Filed chromium issue https://bugs.chromium.org/p/chromium/issues/detail?id=1068481\r\nAfter looking a bit further into the issue it seems that both the JS encoder and the gen-bundle get the sort order wrong. \r\nBoth go \"bytes.compare(..)\" and Buffer.compare() in node do not sort by length first but only by byte values and then length\r\n\r\nhttps://github.com/WICG/webpackage/blob/7412e313f959808ed927cfd4156acffb8bbd9420/go/signedexchange/cbor/encoder.go#L228\r\n\r\n",
           "createdAt": "2020-04-07T08:30:20Z",
           "updatedAt": "2020-04-07T08:46:03Z"
+        },
+        {
+          "author": "irori",
+          "authorAssociation": "COLLABORATOR",
+          "body": "`encoder.go` sorts map keys by CBOR-encoded bytes of keys, i.e. \"z\" (encoded as `61 7A`) comes before \"aa\" (encoded as `62 61 61`). See the unit test of the encoder:\r\n\r\nhttps://github.com/WICG/webpackage/blob/7412e313f959808ed927cfd4156acffb8bbd9420/go/signedexchange/cbor/encoder_test.go#L188\r\n\r\nEffectively it sorts keys by length and then by value.\r\n\r\nHow did you create your bundle file? Was it created by `gen-bundle`, the `wbn` JS library, or any other tool?\r\n",
+          "createdAt": "2020-04-08T02:09:24Z",
+          "updatedAt": "2020-04-08T02:09:24Z"
+        },
+        {
+          "author": "mgissing",
+          "authorAssociation": "NONE",
+          "body": "Sorry I missed the part were the sort includes the length prefix - thats fine.\r\nI have written my own encoder on top of CBOR and with sorting that works fine now.\r\n\r\nRegarding gen-bundle - maybe I'm using it wrong:\r\nThis is the file structure:\r\n\r\n```\r\nDummyPage/index.html\r\n          test.jpg\r\n          unused.jpg\r\n          unused2.jpg\r\n```\r\n\r\nThis doesnt work:\r\n`gen-bundle -baseURL http://example.org/ -primaryURL http://example.org/index.html -dir  DummyPage -o notworking.wbn`\r\n\r\nThis does:\r\n`gen-bundle -baseURL http://example.org/ -primaryURL http://example.org/ -dir  DummyPage -o working.wbn`\r\n\r\n[bundle-working-dump.txt](https://github.com/WICG/webpackage/files/4449270/bundle-working-dump.txt)\r\n[bundle-notworking-dump.txt](https://github.com/WICG/webpackage/files/4449271/bundle-notworking-dump.txt)\r\n\r\nAlso I was wondering if  \"Content-Encoding: gzip\" in responses is supposed to work in Chrome right now - currently Chrome seems to ignore that\r\n",
+          "createdAt": "2020-04-08T08:44:37Z",
+          "updatedAt": "2020-04-08T08:44:37Z"
         }
       ]
     },
@@ -43080,7 +43094,7 @@
       "labels": [],
       "body": "Add an explainer for subresource loading (#526).\r\n\r\ncc: @jyasskin, @kinu, @irori, @horo-t",
       "createdAt": "2020-03-23T13:05:04Z",
-      "updatedAt": "2020-04-06T23:26:20Z",
+      "updatedAt": "2020-04-08T04:07:00Z",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -43165,7 +43179,7 @@
               "originalPosition": 43,
               "body": "I don't think they need to be the same-origin, and actually the example URLs are not the same-origin.\r\nWhen I wrote [this example](https://docs.google.com/document/d/18fFrURT6xD1GnqJwCx2K3Z81Te9Iv-r2ZsCkOvDH_04/edit#heading=h.irqypigubog7), my idea was:\r\n  - If the page is controlled by a service worker, the service worker can intercept any requests from the page and can respond with arbitrary resources.\r\n  - So, it is safe (=no difference from service worker from the security point of view) even if they are not the same origin, when the page can access the web bundle in the CORS manner.\r\n",
               "createdAt": "2020-03-25T01:30:40Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43185,25 +43199,25 @@
               "originalPosition": 6,
               "body": "```suggestion\r\na format that allows multiple resources can be bundled, e.g.\r\n```",
               "createdAt": "2020-03-25T01:54:44Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 20,
               "body": "I think this is not true for parsing.\r\n\r\nChrome is already doing streaming parsing / compiling for classic scripts (probably scaling it to more than one processor is hard, though), and for module scripts each module is parsed / compiled as soon as it is downloaded, without waiting for the entire module tree.",
               "createdAt": "2020-03-25T02:09:11Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 55,
               "body": "```suggestion\r\nresources to a particular bundled resource. Something like [Fetch maps proposal](https://discourse.wicg.io/t/proposal-fetch-maps/4259)\r\n```",
               "createdAt": "2020-03-25T02:24:30Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 97,
               "body": "Could you expand this a bit? I'm not sure how this enables resource subsetting.",
               "createdAt": "2020-03-25T02:30:32Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43223,7 +43237,7 @@
               "originalPosition": 43,
               "body": "Thanks.\r\n@kinu, what do you think? I'm afraid that I misunderstood your suggestions.\r\n\r\nI'm wondering what the explainer should mention here. We have 3 URLs:\r\n\r\n1. The main document's URL\r\n2. href\r\n3. scope\r\n\r\nI thought 2 and 3 need to be the same origin, however, it is okay that 1 is in a different origin.\r\nIt's a simple mistake I forgot to update example URLs.\r\n\r\nAny suggestions? If we don't have a clear answer, I think it is okay to mention it as TBD.",
               "createdAt": "2020-03-25T03:05:07Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43243,7 +43257,7 @@
               "originalPosition": 6,
               "body": "Ah, thanks! This is typo. \"allows multiple resources *to* be bundled\" might be better, I think.\r\nI'll fix that.",
               "createdAt": "2020-03-25T03:08:52Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43263,7 +43277,7 @@
               "originalPosition": 55,
               "body": "Thanks! Let me add a link.",
               "createdAt": "2020-03-25T03:10:58Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43283,7 +43297,7 @@
               "originalPosition": 43,
               "body": "Yeah I suggested this but I remember I discussed that cross-origin seems okay too with you. I want to think through all the implications... for example it apparently complicates CSP story. But I agree that maybe we can just drop this for now.",
               "createdAt": "2020-03-25T03:11:12Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43303,7 +43317,7 @@
               "originalPosition": 97,
               "body": "@kinu \r\nDo you have any opinions? I guess we don't have a concrete idea yet.",
               "createdAt": "2020-03-25T03:11:48Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43323,7 +43337,7 @@
               "originalPosition": 20,
               "body": "Would just dropping 'parsing and' make sense?",
               "createdAt": "2020-03-25T03:12:55Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43343,7 +43357,7 @@
               "originalPosition": 43,
               "body": "(^^I commented before I see Hayato's response) @hayatoito I was indeed thinking about 2 and 3 indeed, but thinking about this more it's a little unclear too. (As @horo-t mentioned SW could already override it)  I think I'm fine with just dropping this sentence.",
               "createdAt": "2020-03-25T03:46:24Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43363,7 +43377,7 @@
               "originalPosition": 43,
               "body": "Thanks! Okay, let's just drop this for now.\r\nOnce we have a more clear idea, let's add something back.",
               "createdAt": "2020-03-25T04:07:03Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43383,7 +43397,7 @@
               "originalPosition": 20,
               "body": "Thanks. Let's drop the \"parsing and\".",
               "createdAt": "2020-03-25T04:13:44Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43403,7 +43417,7 @@
               "originalPosition": 97,
               "body": "Can we address this in a follow-up commit? We can adress that later, I think.",
               "createdAt": "2020-03-26T04:36:17Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43423,7 +43437,7 @@
               "originalPosition": 97,
               "body": "sgtm.",
               "createdAt": "2020-03-26T04:55:33Z",
-              "updatedAt": "2020-03-26T05:07:32Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43443,7 +43457,7 @@
               "originalPosition": 97,
               "body": "Yeah... I think I was thinking *something* like: Server can maintain versioned bundles, and client can send a request with some URL parameters that indicates the version of the bundle they already have in cache (so that the server can identify the updated resources and send them back).  This is mostly about updating-fetch for same bundle cases though, and haven't really thought about how to do for similarly looking bundle on different pages cases.",
               "createdAt": "2020-03-26T07:43:18Z",
-              "updatedAt": "2020-03-26T07:43:19Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43463,7 +43477,7 @@
               "originalPosition": 97,
               "body": "@kinu Thanks! I appreciate that! That's helpful. I think we can update the explainer with the more details once we can explore this area. Let me close this as resolved for now.",
               "createdAt": "2020-04-01T03:17:50Z",
-              "updatedAt": "2020-04-01T03:17:51Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43496,7 +43510,7 @@
               "originalPosition": 94,
               "body": "Both of those option sound like exclusion-based fetching. What we've observed while working on a similar system is that there are scale boundaries where it stops working. When the number of individual items is high, it breaks the length limits for URLs (1) and a digest becomes increasingly unreliable (2).\r\n\r\nThe third solution is to have an official way to batch resources by inclusion instead. It requires an \"inclusion digest\" or \"inclusion list\" instead of an \"cached/exclusion digest\" though.",
               "createdAt": "2020-04-01T14:29:17Z",
-              "updatedAt": "2020-04-01T14:29:17Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43516,7 +43530,7 @@
               "originalPosition": 94,
               "body": "@jkrems\r\nThanks! I agree that especially for dynamic bundling it seems to need some \"inclusion signal\" in requesting phase. I suspect it still could be benefited if it's combined with cache/exclusion approach for better cache efficiency?  A straw-idea could be:\r\n\r\n1. The bundle request should express some hash or list that indicates the set of resources it wants.  Possibly the server and client can share a logic to compute the hash / variations for the session to determine what resources are needed.\r\n2. Platform also attaches some digest that indicates exclusive-fetching information for caching.\r\n\r\nThis explainer didn't tell anything about 1. but probably it'd be better to mention it too. Does it make better sense, or I might be still missing something?",
               "createdAt": "2020-04-03T04:01:15Z",
-              "updatedAt": "2020-04-03T04:01:16Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43536,7 +43550,7 @@
               "originalPosition": 94,
               "body": "Makes sense, I think you covered what I had in mind! And this definitely doesn't have to block this initial PR, more a comment towards future iteration.",
               "createdAt": "2020-04-03T14:44:48Z",
-              "updatedAt": "2020-04-03T14:44:49Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         },
@@ -43556,31 +43570,191 @@
               "originalPosition": 17,
               "body": "```suggestion\r\n  they're also incompatible with new requirements like dynamic bundling (e.g. small edit\r\n```\r\n\r\nAnd please link \"dynamic bundling\" to a description.",
               "createdAt": "2020-04-06T23:06:04Z",
-              "updatedAt": "2020-04-06T23:26:20Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 15,
               "body": "```suggestion\r\n- The caching story with JS bundlers (e.g. webpack) is tough. They are pretty good\r\n```\r\n\r\nOr\r\n\r\n```suggestion\r\n- The output of JS bundlers (e.g. webpack) doesn't interact well with the HTTP cache. They are pretty good\r\n```",
               "createdAt": "2020-04-06T23:06:59Z",
-              "updatedAt": "2020-04-06T23:26:20Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 22,
               "body": "```suggestion\r\n  parallelization, but that's not possible if all resources are bundled as one\r\n```",
               "createdAt": "2020-04-06T23:07:28Z",
-              "updatedAt": "2020-04-06T23:26:21Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 48,
               "body": "The primary requirement to avoid fetching the same bytes twice is that \"If a subresource under that scope is needed later in the document, that later fetch should block until at least the index of the bundle has downloaded to see if it's there.\"\r\n\r\nIt seems secondary to then say that if the subresource within that scope isn't in the bundle, its fetch should fail or otherwise notify the developer: that just prevents delays in starting the subresource fetch.",
               "createdAt": "2020-04-06T23:16:06Z",
-              "updatedAt": "2020-04-06T23:26:21Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
             },
             {
               "originalPosition": 99,
               "body": "A patch format also seems plausible. If the server looks at the If-None-Match request header to learn what version the client already has cached, it can send down a different response type to patch the bundle instead of sending down the whole bundle. I don't know of any existing systems that do that, so we should talk to more people if that direction sounds good. Roberto Peon has argued for patches.",
               "createdAt": "2020-04-06T23:26:12Z",
-              "updatedAt": "2020-04-06T23:26:21Z"
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE3NTU1",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:43:32Z",
+          "updatedAt": "2020-04-08T02:43:32Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Thanks. Done.",
+              "createdAt": "2020-04-08T02:43:32Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE4MTk2",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:45:48Z",
+          "updatedAt": "2020-04-08T02:45:48Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Ah, I didn't add link \"dynamic bundling\". I think it's still an early idea, and we don't have a good description of that in public yet, AFAIK.",
+              "createdAt": "2020-04-08T02:45:48Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE4NjI0",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:47:19Z",
+          "updatedAt": "2020-04-08T02:47:20Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Thanks! The latter sounds good to me.",
+              "createdAt": "2020-04-08T02:47:19Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE5MjM0",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:49:40Z",
+          "updatedAt": "2020-04-08T02:49:41Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "Thanks! Let me add these almost \"as-is\".  I think that would help the reader of this explainer to understand the possible behaviors we are thinking in more details.",
+              "createdAt": "2020-04-08T02:49:41Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE5NTAx",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:50:39Z",
+          "updatedAt": "2020-04-08T02:50:40Z",
+          "comments": [
+            {
+              "originalPosition": 99,
+              "body": "Thanks! Yes, we are currently discussing this topic actively in other places. I think we'll cover this topic in another explainer!",
+              "createdAt": "2020-04-08T02:50:39Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjE5NzMw",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T02:51:32Z",
+          "updatedAt": "2020-04-08T02:51:33Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Done. Thanks!",
+              "createdAt": "2020-04-08T02:51:32Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjM2NTg4",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "kinu",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T03:57:14Z",
+          "updatedAt": "2020-04-08T03:57:14Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "This one, maybe?\r\n\r\nhttps://github.com/azukaru/progressive-fetching/blob/master/docs/dynamic-bundling/index.md",
+              "createdAt": "2020-04-08T03:57:14Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NjM4MzAw",
+          "commit": {
+            "abbreviatedOid": "2eed11f"
+          },
+          "author": "hayatoito",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T04:04:20Z",
+          "updatedAt": "2020-04-08T04:04:21Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Thanks! Let me add a link to that. I think that is okay for us.",
+              "createdAt": "2020-04-08T04:04:21Z",
+              "updatedAt": "2020-04-08T04:07:00Z"
             }
           ]
         }
@@ -43665,6 +43839,79 @@
       "mergedBy": "jyasskin",
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 570,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDAwNTUyODE1",
+      "title": "Add explicit use cases to the navigation-to-bundles explainer.",
+      "url": "https://github.com/WICG/webpackage/pull/570",
+      "state": "MERGED",
+      "author": "jyasskin",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "And an initial diagram.\r\n\r\nThis could probably use diagrams for the other two use cases, but let me know what you think of the use case descriptions and the first diagram.",
+      "createdAt": "2020-04-07T23:35:49Z",
+      "updatedAt": "2020-04-08T18:14:32Z",
+      "closedAt": "2020-04-08T18:14:30Z",
+      "mergedAt": "2020-04-08T18:14:30Z",
+      "mergedBy": "jyasskin",
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NzkxNDA0",
+          "commit": {
+            "abbreviatedOid": "d4a33a5"
+          },
+          "author": "kinu",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T09:11:38Z",
+          "updatedAt": "2020-04-08T09:11:38Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "Maybe also say \"see also the alternate formats section (link) to see why we are proposing this with a new format\" or something (but up to you)",
+              "createdAt": "2020-04-08T09:11:38Z",
+              "updatedAt": "2020-04-08T18:10:42Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzg5NzkxNzkz",
+          "commit": {
+            "abbreviatedOid": "d4a33a5"
+          },
+          "author": "kinu",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks, lgtm",
+          "createdAt": "2020-04-08T09:12:08Z",
+          "updatedAt": "2020-04-08T09:12:08Z",
+          "comments": []
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkwMjEzOTk0",
+          "commit": {
+            "abbreviatedOid": "5c1029f"
+          },
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-08T18:11:40Z",
+          "updatedAt": "2020-04-08T18:11:41Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "Thanks, done.",
+              "createdAt": "2020-04-08T18:11:40Z",
+              "updatedAt": "2020-04-08T18:11:41Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
