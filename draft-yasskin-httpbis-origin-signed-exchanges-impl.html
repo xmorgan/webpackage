@@ -12,7 +12,7 @@
 draft-yasskin-http-origin-signed-responses to synchronize implementation between
 clients, intermediates, and publishers. 
     " name="description">
-<meta content="xml2rfc 2.42.0" name="generator">
+<meta content="xml2rfc 2.43.0" name="generator">
 <meta content="draft-yasskin-httpbis-origin-signed-exchanges-impl-latest" name="ietf.draft">
 <link href="draft-yasskin-httpbis-origin-signed-exchanges-impl.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -934,10 +934,10 @@ in <a href="https://github.com/WICG/webpackage">https://github.com/WICG/webpacka
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology" class="xref">Terminology</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="xref">3</a>.  <a href="#name-signing-an-exchange" class="xref">Signing an exchange</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-signing-an-exchange" class="xref">Signing an exchange</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-the-signature-header" class="xref">The Signature Header</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-the-signature-header" class="xref">The Signature Header</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.1.2.1">
                     <p id="section-toc.1-1.3.2.1.2.1.1" class="keepWithNext"><a href="#section-3.1.1" class="xref">3.1.1</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-toc.1-1.3.2.1.2.1.1" class="pilcrow">¶</a></p>
@@ -945,114 +945,114 @@ in <a href="https://github.com/WICG/webpackage">https://github.com/WICG/webpacka
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1" class="keepWithNext"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-cbor-representation-of-exch" class="xref">CBOR representation of exchange response headers</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-cbor-representation-of-exch" class="xref">CBOR representation of exchange response headers</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1" class="keepWithNext"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-example" class="xref">Example</a><a href="#section-toc.1-1.3.2.2.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-example" class="xref">Example</a><a href="#section-toc.1-1.3.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1" class="keepWithNext"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-loading-a-certificate-chain" class="xref">Loading a certificate chain</a><a href="#section-toc.1-1.3.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-loading-a-certificate-chain" class="xref">Loading a certificate chain</a><a href="#section-toc.1-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1" class="keepWithNext"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-canonical-cbor-serializatio" class="xref">Canonical CBOR serialization</a><a href="#section-toc.1-1.3.2.4.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-canonical-cbor-serializatio" class="xref">Canonical CBOR serialization</a><a href="#section-toc.1-1.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1" class="keepWithNext"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-signature-validity" class="xref">Signature validity</a><a href="#section-toc.1-1.3.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-signature-validity" class="xref">Signature validity</a><a href="#section-toc.1-1.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.6">
-                <p id="section-toc.1-1.3.2.6.1" class="keepWithNext"><a href="#section-3.6" class="xref">3.6</a>.  <a href="#name-updating-signature-validity" class="xref">Updating signature validity</a><a href="#section-toc.1-1.3.2.6.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="xref">3.6</a>.  <a href="#name-updating-signature-validity" class="xref">Updating signature validity</a><a href="#section-toc.1-1.3.2.6.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.6.2.1">
-                    <p id="section-toc.1-1.3.2.6.2.1.1" class="keepWithNext"><a href="#section-3.6.1" class="xref">3.6.1</a>.  <a href="#name-examples-2" class="xref">Examples</a><a href="#section-toc.1-1.3.2.6.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.3.2.6.2.1.1"><a href="#section-3.6.1" class="xref">3.6.1</a>.  <a href="#name-examples-2" class="xref">Examples</a><a href="#section-toc.1-1.3.2.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.3.2.7">
-                <p id="section-toc.1-1.3.2.7.1" class="keepWithNext"><a href="#section-3.7" class="xref">3.7</a>.  <a href="#name-the-accept-signature-header" class="xref">The Accept-Signature header</a><a href="#section-toc.1-1.3.2.7.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.3.2.7.1"><a href="#section-3.7" class="xref">3.7</a>.  <a href="#name-the-accept-signature-header" class="xref">The Accept-Signature header</a><a href="#section-toc.1-1.3.2.7.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1" class="keepWithNext"><a href="#section-4" class="xref">4</a>.  <a href="#name-cross-origin-trust" class="xref">Cross-origin trust</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-cross-origin-trust" class="xref">Cross-origin trust</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1" class="keepWithNext"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-uncached-header-fields" class="xref">Uncached header fields</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-uncached-header-fields" class="xref">Uncached header fields</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.1.2.1">
-                    <p id="section-toc.1-1.4.2.1.2.1.1" class="keepWithNext"><a href="#section-4.1.1" class="xref">4.1.1</a>.  <a href="#name-stateful-header-fields" class="xref">Stateful header fields</a><a href="#section-toc.1-1.4.2.1.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="xref">4.1.1</a>.  <a href="#name-stateful-header-fields" class="xref">Stateful header fields</a><a href="#section-toc.1-1.4.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1" class="keepWithNext"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-certificate-requirements" class="xref">Certificate Requirements</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-certificate-requirements" class="xref">Certificate Requirements</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.4.2.2.2.1">
-                    <p id="section-toc.1-1.4.2.2.2.1.1" class="keepWithNext"><a href="#section-4.2.1" class="xref">4.2.1</a>.  <a href="#name-extensions-to-the-caa-recor" class="xref">Extensions to the CAA Record: cansignhttpexchanges Parameter</a><a href="#section-toc.1-1.4.2.2.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="xref">4.2.1</a>.  <a href="#name-extensions-to-the-caa-recor" class="xref">Extensions to the CAA Record: cansignhttpexchanges Parameter</a><a href="#section-toc.1-1.4.2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1" class="keepWithNext"><a href="#section-5" class="xref">5</a>.  <a href="#name-transferring-a-signed-excha" class="xref">Transferring a signed exchange</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-transferring-a-signed-excha" class="xref">Transferring a signed exchange</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1" class="keepWithNext"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-same-origin-response" class="xref">Same-origin response</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-same-origin-response" class="xref">Same-origin response</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1" class="keepWithNext"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-http-2-extension-for-cross-" class="xref">HTTP/2 extension for cross-origin Server Push</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-http-2-extension-for-cross-" class="xref">HTTP/2 extension for cross-origin Server Push</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1" class="keepWithNext"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-application-signed-exchange" class="xref">application/signed-exchange format</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-application-signed-exchange" class="xref">application/signed-exchange format</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.3.2.1">
-                    <p id="section-toc.1-1.5.2.3.2.1.1" class="keepWithNext"><a href="#section-5.3.1" class="xref">5.3.1</a>.  <a href="#name-cross-origin-trust-in-appli" class="xref">Cross-origin trust in application/signed-exchange</a><a href="#section-toc.1-1.5.2.3.2.1.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="xref">5.3.1</a>.  <a href="#name-cross-origin-trust-in-appli" class="xref">Cross-origin trust in application/signed-exchange</a><a href="#section-toc.1-1.5.2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.3.2.2">
-                    <p id="section-toc.1-1.5.2.3.2.2.1" class="keepWithNext"><a href="#section-5.3.2" class="xref">5.3.2</a>.  <a href="#name-content-negotiation" class="xref">Content negotiation</a><a href="#section-toc.1-1.5.2.3.2.2.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="xref">5.3.2</a>.  <a href="#name-content-negotiation" class="xref">Content negotiation</a><a href="#section-toc.1-1.5.2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.5.2.3.2.3">
-                    <p id="section-toc.1-1.5.2.3.2.3.1" class="keepWithNext"><a href="#section-5.3.3" class="xref">5.3.3</a>.  <a href="#name-example-2" class="xref">Example</a><a href="#section-toc.1-1.5.2.3.2.3.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.5.2.3.2.3.1"><a href="#section-5.3.3" class="xref">5.3.3</a>.  <a href="#name-example-2" class="xref">Example</a><a href="#section-toc.1-1.5.2.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1" class="keepWithNext"><a href="#section-6" class="xref">6</a>.  <a href="#name-security-considerations" class="xref">Security considerations</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-security-considerations" class="xref">Security considerations</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1" class="keepWithNext"><a href="#section-7" class="xref">7</a>.  <a href="#name-privacy-considerations" class="xref">Privacy considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-privacy-considerations" class="xref">Privacy considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1" class="keepWithNext"><a href="#section-8" class="xref">8</a>.  <a href="#name-iana-considerations" class="xref">IANA considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-iana-considerations" class="xref">IANA considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1" class="keepWithNext"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-internet-media-type-applica" class="xref">Internet Media Type application/signed-exchange</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-internet-media-type-applica" class="xref">Internet Media Type application/signed-exchange</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1" class="keepWithNext"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
 <li class="toc ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1" class="keepWithNext"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1" class="keepWithNext"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1" class="keepWithNext"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-change-log" class="xref">Change Log</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-change-log" class="xref">Change Log</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1" class="keepWithNext"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1" class="keepWithNext"><a href="#section-appendix.c" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#section-appendix.c" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </nav>
@@ -1084,17 +1084,20 @@ version each party has implemented so that mismatches can be detected up-front.<
  string</a> concept defined by
  (<span>[<a href="#URL" class="xref">URL</a>]</span>) but might not include exactly the same strings.<a href="#section-2-1.2" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.3">Author</dt>
 <dd id="section-2-1.4">
   The entity that wrote the content in a particular resource. This specification
 deals with publishers rather than authors.<a href="#section-2-1.4" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.5">Publisher</dt>
 <dd id="section-2-1.6">
   The entity that controls the server for a particular origin <span>[<a href="#RFC6454" class="xref">RFC6454</a>]</span>. The
 publisher can get a CA to issue certificates for their private keys and can
 run a TLS server for their origin.<a href="#section-2-1.6" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.7">Exchange (noun)</dt>
 <dd id="section-2-1.8">
   An HTTP request URL, content negotiation information, and an HTTP response.
@@ -1104,21 +1107,25 @@ encode the content negotiation information. This is not quite the same meaning
 as defined by Section 8 of <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span>, which assumes the content negotiation
 information is embedded into HTTP request headers.<a href="#section-2-1.8" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.9">Intermediate</dt>
 <dd id="section-2-1.10">
   An entity that fetches signed HTTP exchanges from a publisher or another
 intermediate and forwards them to another intermediate or a client.<a href="#section-2-1.10" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.11">Client</dt>
 <dd id="section-2-1.12">
   An entity that uses a signed HTTP exchange and needs to be able to prove that
 the publisher vouched for it as coming from its claimed origin.<a href="#section-2-1.12" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-2-1.13">Unix time</dt>
 <dd id="section-2-1.14">
   Defined by <span>[<a href="#POSIX" class="xref">POSIX</a>]</span> <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_16">section
 4.16</a>.<a href="#section-2-1.14" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 </dl>
 <p id="section-2-2">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
@@ -1178,6 +1185,7 @@ values:<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 the signature of most of these parameters and the exchange's URL and response
 headers.<a href="#section-3.1-5.2" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-3.1-5.3">"integrity"</dt>
 <dd id="section-3.1-5.4">
   A string (Section 3.8 of <span>[<a href="#I-D.ietf-httpbis-header-structure-10" class="xref">I-D.ietf-httpbis-header-structure-10</a>]</span>) containing a
@@ -1187,16 +1195,19 @@ meaning of subsequent names depends on the response header field, but for the
 "digest" header field, the single following name is the name of the digest
 algorithm that guards the payload's integrity.<a href="#section-3.1-5.4" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-3.1-5.5">"cert-url"</dt>
 <dd id="section-3.1-5.6">
   A string (Section 3.8 of <span>[<a href="#I-D.ietf-httpbis-header-structure-10" class="xref">I-D.ietf-httpbis-header-structure-10</a>]</span>) containing an
 absolute URL (<a href="#terminology" class="xref">Section 2</a>) with a scheme of "https" or "data".<a href="#section-3.1-5.6" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-3.1-5.7">"cert-sha256"</dt>
 <dd id="section-3.1-5.8">
   Byte sequence (Section 3.10 of <span>[<a href="#I-D.ietf-httpbis-header-structure-10" class="xref">I-D.ietf-httpbis-header-structure-10</a>]</span>) holding
 the SHA-256 hash of the first certificate found at "cert-url".<a href="#section-3.1-5.8" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 <dt id="section-3.1-5.9">"validity-url"</dt>
 <div id="signature-validityurl">
 <dd id="section-3.1-5.10">
@@ -1204,11 +1215,13 @@ the SHA-256 hash of the first certificate found at "cert-url".<a href="#section-
 absolute URL (<a href="#terminology" class="xref">Section 2</a>) with a scheme of "https".<a href="#section-3.1-5.10" class="pilcrow">¶</a>
 </dd>
 </div>
+<dd class="break"></dd>
 <dt id="section-3.1-5.11">"date" and "expires"</dt>
 <dd id="section-3.1-5.12">
   An integer (Section 3.6 of <span>[<a href="#I-D.ietf-httpbis-header-structure-10" class="xref">I-D.ietf-httpbis-header-structure-10</a>]</span>)
 representing a Unix time.<a href="#section-3.1-5.12" class="pilcrow">¶</a>
 </dd>
+<dd class="break"></dd>
 </dl>
 <p id="section-3.1-6">The "cert-url" parameter is <em>not</em> signed, so intermediates can update it with a
 pointer to a cached version.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
@@ -2191,60 +2204,79 @@ number.<a href="#section-8.1-4.1.2" class="pilcrow">¶</a></p>
 <dt id="CDDL">[CDDL]</dt>
 <dd>
 <span class="refAuthor">Birkholz, H.</span><span class="refAuthor">, Vigano, C.</span><span class="refAuthor">, and C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8610">https://www.rfc-editor.org/info/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="FETCH">[FETCH]</dt>
 <dd>
 <span class="refAuthor">WHATWG</span>, <span class="refTitle">"Fetch"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-httpbis-header-structure-10">[I-D.ietf-httpbis-header-structure-10]</dt>
 <dd>
 <span class="refAuthor">Nottingham, M.</span><span class="refAuthor"> and P. Kamp</span>, <span class="refTitle">"Structured Headers for HTTP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-header-structure-10</span>, <time datetime="2019-04-17">17 April 2019</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-10">https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-10</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-httpbis-variants-05">[I-D.ietf-httpbis-variants-05]</dt>
 <dd>
 <span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"HTTP Representation Variants"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-variants-05</span>, <time datetime="2019-03-25">25 March 2019</time>, <span>&lt;<a href="https://tools.ietf.org/html/ietf-httpbis-variants-05">https://tools.ietf.org/html/ietf-httpbis-variants-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.yasskin-http-origin-signed-responses">[I-D.yasskin-http-origin-signed-responses]</dt>
 <dd>
 <span class="refAuthor">Yasskin, J.</span>, <span class="refTitle">"Signed HTTP Exchanges"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-yasskin-http-origin-signed-responses-08</span>, <time datetime="2019-11-04">4 November 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-yasskin-http-origin-signed-responses-08.txt">http://www.ietf.org/internet-drafts/draft-yasskin-http-origin-signed-responses-08.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="POSIX">[POSIX]</dt>
 <dd>
 <span class="refAuthor">IEEE</span><span class="refAuthor"> and The Open Group</span>, <span class="refTitle">"The Open Group Base Specifications Issue 7"</span>, <span class="seriesInfo">value 1003.1-2008, 2016 Edition</span>, <span class="seriesInfo">name IEEE</span>, <time datetime="2016">2016</time>, <span>&lt;<a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5234">[RFC5234]</dt>
 <dd>
 <span class="refAuthor">Crocker, D., Ed.</span><span class="refAuthor"> and P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5234">https://www.rfc-editor.org/info/rfc5234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
 <dd>
 <span class="refAuthor">Cooper, D.</span><span class="refAuthor">, Santesson, S.</span><span class="refAuthor">, Farrell, S.</span><span class="refAuthor">, Boeyen, S.</span><span class="refAuthor">, Housley, R.</span><span class="refAuthor">, and W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5280">https://www.rfc-editor.org/info/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6844">[RFC6844]</dt>
 <dd>
 <span class="refAuthor">Hallam-Baker, P.</span><span class="refAuthor"> and R. Stradling</span>, <span class="refTitle">"DNS Certification Authority Authorization (CAA) Resource Record"</span>, <span class="seriesInfo">RFC 6844</span>, <span class="seriesInfo">DOI 10.17487/RFC6844</span>, <time datetime="2013-01">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6844">https://www.rfc-editor.org/info/rfc6844</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6960">[RFC6960]</dt>
 <dd>
 <span class="refAuthor">Santesson, S.</span><span class="refAuthor">, Myers, M.</span><span class="refAuthor">, Ankney, R.</span><span class="refAuthor">, Malpani, A.</span><span class="refAuthor">, Galperin, S.</span><span class="refAuthor">, and C. Adams</span>, <span class="refTitle">"X.509 Internet Public Key Infrastructure Online Certificate Status Protocol - OCSP"</span>, <span class="seriesInfo">RFC 6960</span>, <span class="seriesInfo">DOI 10.17487/RFC6960</span>, <time datetime="2013-06">June 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6960">https://www.rfc-editor.org/info/rfc6960</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6962">[RFC6962]</dt>
 <dd>
 <span class="refAuthor">Laurie, B.</span><span class="refAuthor">, Langley, A.</span><span class="refAuthor">, and E. Kasper</span>, <span class="refTitle">"Certificate Transparency"</span>, <span class="seriesInfo">RFC 6962</span>, <span class="seriesInfo">DOI 10.17487/RFC6962</span>, <time datetime="2013-06">June 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6962">https://www.rfc-editor.org/info/rfc6962</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7049">[RFC7049]</dt>
 <dd>
 <span class="refAuthor">Bormann, C.</span><span class="refAuthor"> and P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">RFC 7049</span>, <span class="seriesInfo">DOI 10.17487/RFC7049</span>, <time datetime="2013-10">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7049">https://www.rfc-editor.org/info/rfc7049</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7230">[RFC7230]</dt>
 <dd>
 <span class="refAuthor">Fielding, R., Ed.</span><span class="refAuthor"> and J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing"</span>, <span class="seriesInfo">RFC 7230</span>, <span class="seriesInfo">DOI 10.17487/RFC7230</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7230">https://www.rfc-editor.org/info/rfc7230</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7231">[RFC7231]</dt>
 <dd>
 <span class="refAuthor">Fielding, R., Ed.</span><span class="refAuthor"> and J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content"</span>, <span class="seriesInfo">RFC 7231</span>, <span class="seriesInfo">DOI 10.17487/RFC7231</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7231">https://www.rfc-editor.org/info/rfc7231</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7234">[RFC7234]</dt>
 <dd>
 <span class="refAuthor">Fielding, R., Ed.</span><span class="refAuthor">, Nottingham, M., Ed.</span><span class="refAuthor">, and J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Caching"</span>, <span class="seriesInfo">RFC 7234</span>, <span class="seriesInfo">DOI 10.17487/RFC7234</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7234">https://www.rfc-editor.org/info/rfc7234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
 <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="TLS1.3">[TLS1.3]</dt>
 <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="URL">[URL]</dt>
 <dd>
 <span class="refAuthor">WHATWG</span>, <span class="refTitle">"URL"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 </dl>
 </section>
 <section id="section-9.2">
@@ -2255,54 +2287,71 @@ number.<a href="#section-8.1-4.1.2" class="pilcrow">¶</a></p>
 <dt id="I-D.ietf-httpbis-cache">[I-D.ietf-httpbis-cache]</dt>
 <dd>
 <span class="refAuthor">Fielding, R.</span><span class="refAuthor">, Nottingham, M.</span><span class="refAuthor">, and J. Reschke</span>, <span class="refTitle">"HTTP Caching"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-cache-07</span>, <time datetime="2020-03-07">7 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-cache-07.txt">http://www.ietf.org/internet-drafts/draft-ietf-httpbis-cache-07.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.thomson-http-mice">[I-D.thomson-http-mice]</dt>
 <dd>
 <span class="refAuthor">Thomson, M.</span><span class="refAuthor"> and J. Yasskin</span>, <span class="refTitle">"Merkle Integrity Content Encoding"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-thomson-http-mice-03</span>, <time datetime="2018-08-13">13 August 2018</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-thomson-http-mice-03.txt">http://www.ietf.org/internet-drafts/draft-thomson-http-mice-03.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.yasskin-http-origin-signed-responses-03">[I-D.yasskin-http-origin-signed-responses-03]</dt>
 <dd>
 <span class="refAuthor">Yasskin, J.</span>, <span class="refTitle">"Signed HTTP Exchanges"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-yasskin-http-origin-signed-responses-03</span>, <time datetime="2018-03-05">5 March 2018</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-03">https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.yasskin-http-origin-signed-responses-04">[I-D.yasskin-http-origin-signed-responses-04]</dt>
 <dd>
 <span class="refAuthor">Yasskin, J.</span>, <span class="refTitle">"Signed HTTP Exchanges"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-yasskin-http-origin-signed-responses-04</span>, <time datetime="2018-06-14">14 June 2018</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-04">https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.yasskin-http-origin-signed-responses-05">[I-D.yasskin-http-origin-signed-responses-05]</dt>
 <dd>
 <span class="refAuthor">Yasskin, J.</span>, <span class="refTitle">"Signed HTTP Exchanges"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-yasskin-http-origin-signed-responses-05</span>, <time datetime="2019-01-23">23 January 2019</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-05">https://tools.ietf.org/html/draft-yasskin-http-origin-signed-responses-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2965">[RFC2965]</dt>
 <dd>
 <span class="refAuthor">Kristol, D.</span><span class="refAuthor"> and L. Montulli</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 2965</span>, <span class="seriesInfo">DOI 10.17487/RFC2965</span>, <time datetime="2000-10">October 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2965">https://www.rfc-editor.org/info/rfc2965</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6265">[RFC6265]</dt>
 <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6265">https://www.rfc-editor.org/info/rfc6265</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6454">[RFC6454]</dt>
 <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6454">https://www.rfc-editor.org/info/rfc6454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6455">[RFC6455]</dt>
 <dd>
 <span class="refAuthor">Fette, I.</span><span class="refAuthor"> and A. Melnikov</span>, <span class="refTitle">"The WebSocket Protocol"</span>, <span class="seriesInfo">RFC 6455</span>, <span class="seriesInfo">DOI 10.17487/RFC6455</span>, <time datetime="2011-12">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6455">https://www.rfc-editor.org/info/rfc6455</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6797">[RFC6797]</dt>
 <dd>
 <span class="refAuthor">Hodges, J.</span><span class="refAuthor">, Jackson, C.</span><span class="refAuthor">, and A. Barth</span>, <span class="refTitle">"HTTP Strict Transport Security (HSTS)"</span>, <span class="seriesInfo">RFC 6797</span>, <span class="seriesInfo">DOI 10.17487/RFC6797</span>, <time datetime="2012-11">November 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6797">https://www.rfc-editor.org/info/rfc6797</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7235">[RFC7235]</dt>
 <dd>
 <span class="refAuthor">Fielding, R., Ed.</span><span class="refAuthor"> and J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Authentication"</span>, <span class="seriesInfo">RFC 7235</span>, <span class="seriesInfo">DOI 10.17487/RFC7235</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7235">https://www.rfc-editor.org/info/rfc7235</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7469">[RFC7469]</dt>
 <dd>
 <span class="refAuthor">Evans, C.</span><span class="refAuthor">, Palmer, C.</span><span class="refAuthor">, and R. Sleevi</span>, <span class="refTitle">"Public Key Pinning Extension for HTTP"</span>, <span class="seriesInfo">RFC 7469</span>, <span class="seriesInfo">DOI 10.17487/RFC7469</span>, <time datetime="2015-04">April 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7469">https://www.rfc-editor.org/info/rfc7469</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7540">[RFC7540]</dt>
 <dd>
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7615">[RFC7615]</dt>
 <dd>
 <span class="refAuthor">Reschke, J.</span>, <span class="refTitle">"HTTP Authentication-Info and Proxy-Authentication-Info Response Header Fields"</span>, <span class="seriesInfo">RFC 7615</span>, <span class="seriesInfo">DOI 10.17487/RFC7615</span>, <time datetime="2015-09">September 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7615">https://www.rfc-editor.org/info/rfc7615</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8053">[RFC8053]</dt>
 <dd>
 <span class="refAuthor">Oiwa, Y.</span><span class="refAuthor">, Watanabe, H.</span><span class="refAuthor">, Takagi, H.</span><span class="refAuthor">, Maeda, K.</span><span class="refAuthor">, Hayashi, T.</span><span class="refAuthor">, and Y. Ioku</span>, <span class="refTitle">"HTTP Authentication Extensions for Interactive Clients"</span>, <span class="seriesInfo">RFC 8053</span>, <span class="seriesInfo">DOI 10.17487/RFC8053</span>, <time datetime="2017-01">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8053">https://www.rfc-editor.org/info/rfc8053</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="W3C.NOTE-OPS-OverHTTP">[W3C.NOTE-OPS-OverHTTP]</dt>
 <dd>
 <span class="refAuthor">Hensley, P.</span><span class="refAuthor">, Metral, M.</span><span class="refAuthor">, Shardanand, U.</span><span class="refAuthor">, Converse, D.</span><span class="refAuthor">, and M. Myers</span>, <span class="refTitle">"Implementation of OPS Over HTTP"</span>, <span class="seriesInfo">W3C NOTE NOTE-OPS-OverHTTP</span>, <time datetime="1997-06-02">2 June 1997</time>, <span>&lt;<a href="http://www.w3.org/TR/NOTE-OPS-OverHTTP">http://www.w3.org/TR/NOTE-OPS-OverHTTP</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="W3C.WD-clear-site-data-20171130">[W3C.WD-clear-site-data-20171130]</dt>
 <dd>
 <span class="refAuthor">West, M.</span>, <span class="refTitle">"Clear Site Data"</span>, <span class="seriesInfo">World Wide Web Consortium WD WD-clear-site-data-20171130</span>, <time datetime="2017-11-30">30 November 2017</time>, <span>&lt;<a href="https://www.w3.org/TR/2017/WD-clear-site-data-20171130">https://www.w3.org/TR/2017/WD-clear-site-data-20171130</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 </dl>
 </section>
 </section>

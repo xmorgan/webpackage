@@ -832,8 +832,8 @@ Internet-Draft Use Cases and Requirements for Web Packages    April 2020
    ability to serve HTTPS requests for those resources' origin
    [RFC6454].
 
-   Note that previous attempts to sign HTTP messages
-   ([I-D.thomson-http-content-signature], [I-D.burke-content-signature],
+
+
 
 
 
@@ -842,6 +842,8 @@ Yasskin                  Expires 16 October 2020               [Page 15]
 Internet-Draft Use Cases and Requirements for Web Packages    April 2020
 
 
+   Note that previous attempts to sign HTTP messages
+   ([I-D.thomson-http-content-signature], [I-D.burke-content-signature],
    and [I-D.cavage-http-signatures]) omit a description of how a client
    should use a signature to prove that a resource comes from a
    particular origin, and they're probably not usable for that purpose.
@@ -888,8 +890,6 @@ Internet-Draft Use Cases and Requirements for Web Packages    April 2020
 
    Attackers can't cause a browser to trust an older, vulnerable version
    of a package after the browser has seen a newer version.
-
-
 
 
 
@@ -1168,8 +1168,8 @@ Internet-Draft Use Cases and Requirements for Web Packages    April 2020
               05, 2 July 2018, <http://www.ietf.org/internet-drafts/
               draft-ietf-httpbis-cache-digest-05.txt>.
 
-   [I-D.ietf-httpbis-http2-secondary-certs]
-              Bishop, M., Sullivan, N., and M. Thomson, "Secondary
+
+
 
 
 
@@ -1178,6 +1178,8 @@ Yasskin                  Expires 16 October 2020               [Page 21]
 Internet-Draft Use Cases and Requirements for Web Packages    April 2020
 
 
+   [I-D.ietf-httpbis-http2-secondary-certs]
+              Bishop, M., Sullivan, N., and M. Thomson, "Secondary
               Certificate Authentication in HTTP/2", Work in Progress,
               Internet-Draft, draft-ietf-httpbis-http2-secondary-certs-
               05, 1 November 2019, <http://www.ietf.org/internet-drafts/
@@ -1224,8 +1226,6 @@ Internet-Draft Use Cases and Requirements for Web Packages    April 2020
               DOI 10.17487/RFC6797, November 2012,
               <https://www.rfc-editor.org/info/rfc6797>.
 
-   [RFC6962]  Laurie, B., Langley, A., and E. Kasper, "Certificate
-
 
 
 
@@ -1234,6 +1234,7 @@ Yasskin                  Expires 16 October 2020               [Page 22]
 Internet-Draft Use Cases and Requirements for Web Packages    April 2020
 
 
+   [RFC6962]  Laurie, B., Langley, A., and E. Kasper, "Certificate
               Transparency", RFC 6962, DOI 10.17487/RFC6962, June 2013,
               <https://www.rfc-editor.org/info/rfc6962>.
 
@@ -1275,7 +1276,6 @@ Author's Address
    Google
 
    Email: jyasskin@chromium.org
-
 
 
 

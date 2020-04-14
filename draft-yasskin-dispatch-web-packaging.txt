@@ -80,7 +80,7 @@ Table of Contents
      5.1.  Internet Media Type Registration  . . . . . . . . . . . .  14
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
      6.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
-     6.2.  Informative References  . . . . . . . . . . . . . . . . .  16
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .  17
    Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  17
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  17
 
@@ -720,8 +720,8 @@ Internet-Draft                Web Packaging                   April 2020
    example within the last 7-30 days. *TODO:* These version constraints
    aren't designed yet.
 
-   Relaxing the requirement to consult DNS when determining authority
-   for an origin means that an attacker who possesses a valid
+
+
 
 
 
@@ -730,6 +730,8 @@ Yasskin                  Expires 16 October 2020               [Page 13]
 Internet-Draft                Web Packaging                   April 2020
 
 
+   Relaxing the requirement to consult DNS when determining authority
+   for an origin means that an attacker who possesses a valid
    certificate no longer needs to be on-path to redirect traffic to
    them; instead of modifying DNS, they need only convince the user to
    visit another Web site, in order to serve packages signed as the
@@ -777,14 +779,14 @@ Internet-Draft                Web Packaging                   April 2020
 
    *  Additional information:
 
-      -  Deprecated alias names for this type: N/A
-
 
 
 Yasskin                  Expires 16 October 2020               [Page 14]
 
 Internet-Draft                Web Packaging                   April 2020
 
+
+      -  Deprecated alias names for this type: N/A
 
       -  Magic number(s): 85 48 F0 9F 8C 90 F0 9F 93 A6
 
@@ -830,10 +832,8 @@ Internet-Draft                Web Packaging                   April 2020
               HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
               <https://www.rfc-editor.org/info/rfc7541>.
 
-   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
-              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
-              DOI 10.17487/RFC7540, May 2015,
-              <https://www.rfc-editor.org/info/rfc7540>.
+
+
 
 
 
@@ -841,6 +841,11 @@ Yasskin                  Expires 16 October 2020               [Page 15]
 
 Internet-Draft                Web Packaging                   April 2020
 
+
+   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
+              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
+              DOI 10.17487/RFC7540, May 2015,
+              <https://www.rfc-editor.org/info/rfc7540>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -886,11 +891,6 @@ Internet-Draft                Web Packaging                   April 2020
               ietf-tls-tls13-28, 20 March 2018, <http://www.ietf.org/
               internet-drafts/draft-ietf-tls-tls13-28.txt>.
 
-6.2.  Informative References
-
-   [I-D.yasskin-wpack-use-cases]
-              Yasskin, J., "Use Cases and Requirements for Web
-
 
 
 Yasskin                  Expires 16 October 2020               [Page 16]
@@ -898,6 +898,10 @@ Yasskin                  Expires 16 October 2020               [Page 16]
 Internet-Draft                Web Packaging                   April 2020
 
 
+6.2.  Informative References
+
+   [I-D.yasskin-wpack-use-cases]
+              Yasskin, J., "Use Cases and Requirements for Web
               Packages", Work in Progress, Internet-Draft, draft-
               yasskin-wpack-use-cases-00, 30 October 2019,
               <http://www.ietf.org/internet-drafts/draft-yasskin-wpack-
@@ -931,10 +935,6 @@ Author's Address
    Google
 
    Email: jyasskin@chromium.org
-
-
-
-
 
 
 
