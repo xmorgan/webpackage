@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-14T12:30:44.114800+00:00",
+  "timestamp": "2020-04-15T00:51:12.102794+00:00",
   "repo": "WICG/webpackage",
   "labels": [
     {
@@ -43946,36 +43946,50 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NDAyMDkzNDI1",
       "title": "The IETF WPACK WG is chartered now.",
       "url": "https://github.com/WICG/webpackage/pull/571",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "jyasskin",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2020-04-10T22:39:44Z",
-      "updatedAt": "2020-04-10T22:39:44Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
+      "updatedAt": "2020-04-15T00:49:03Z",
+      "closedAt": "2020-04-15T00:49:03Z",
+      "mergedAt": "2020-04-15T00:49:03Z",
+      "mergedBy": "kinu",
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzkzMzg3ODU3",
+          "commit": {
+            "abbreviatedOid": "45e41df"
+          },
+          "author": "kinu",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2020-04-15T00:48:08Z",
+          "updatedAt": "2020-04-15T00:48:08Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 572,
       "id": "MDExOlB1bGxSZXF1ZXN0NDAyNzUwOTA3",
       "title": "Switch to \"authoritative\" instead of \"trusted\" to match HTTP.",
       "url": "https://github.com/WICG/webpackage/pull/572",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "jyasskin",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html#establishing.authority",
       "createdAt": "2020-04-13T17:31:59Z",
-      "updatedAt": "2020-04-14T02:43:00Z",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
+      "updatedAt": "2020-04-14T17:02:27Z",
+      "closedAt": "2020-04-14T17:02:25Z",
+      "mergedAt": "2020-04-14T17:02:25Z",
+      "mergedBy": "jyasskin",
       "comments": [],
       "reviews": [
         {
