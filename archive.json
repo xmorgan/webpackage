@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-15T00:51:12.102794+00:00",
+  "timestamp": "2020-04-20T15:49:47.165902+00:00",
   "repo": "WICG/webpackage",
   "labels": [
     {
@@ -102,6 +102,16 @@
       "name": "a11y-needs-resolution",
       "description": "Issue the Accessibility Group has raised and looks for a response on.",
       "color": "ea7472"
+    },
+    {
+      "name": "tag-tracker",
+      "description": "Group bringing to attention of the TAG, or tracked by the TAG but not needing response.",
+      "color": "7fff00"
+    },
+    {
+      "name": "tag-needs-resolution",
+      "description": "Issue the Technical Architecture Group has raised and looks for a response on.",
+      "color": "7fff00"
     }
   ],
   "issues": [
@@ -8260,16 +8270,24 @@
       "id": "MDU6SXNzdWU1MjA5NTU2NTg=",
       "title": "WebBundle for sub-resources",
       "url": "https://github.com/WICG/webpackage/issues/526",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Jxck",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Current Spec seems based on top level url(html) + subresouces.\r\nbut I think it can use for bundling subresource like JS modules.\r\n\r\nin current real world, JS modules are depends on tiny modules in npm.\r\nif you write correct import maps and serve node_modules directory on server will solve dependencies\r\non the browser.\r\n\r\nbut npm modules are so tiny (substack way), so there cause tons of fetch likely over 100.\r\nand Chrome Team reports this will cause IPC bottle neck.\r\n\r\nhttps://docs.google.com/document/d/1ds9EEkcDGnt-iR8SAN-_7nsOfw7gsMfhZjzZ_QAIyjM/edit\r\n\r\nfinally they recommend to use webpack and make them in single bundle.js. and developers doing that.\r\n\r\nthis means we don't use ES modules directory, even if spec has done, and impl has almost done in browser. `import` notation is only a keyword for webpack, and `<script type=text/javascript src=bundle.js>`. too sad to see them.\r\n\r\nif we can use WebBundles for bundling npm modules and fetch them in one time.\r\nand also browser extract and handle them as if they are fetched each-by-each.\r\nbrowser can cache as separated req/res pare, we can use them via `import`.\r\n\r\nwebbundle for subresources are also fine for WebFont(multi weight), CSS Sprite(bundle images), Favicon(apple-touch-icon, favicon.ico etc).\r\n\r\nso I believe webbundle will change our web content deployment.",
       "createdAt": "2019-11-11T13:14:04Z",
-      "updatedAt": "2019-11-11T13:14:04Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2020-04-17T23:42:59Z",
+      "closedAt": "2020-04-17T23:42:59Z",
+      "comments": [
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "I think this issue is fixed by #565, which documents that we think it's an important use case to solve.",
+          "createdAt": "2020-04-17T23:42:59Z",
+          "updatedAt": "2020-04-17T23:42:59Z"
+        }
+      ]
     },
     {
       "number": 527,
@@ -44037,6 +44055,75 @@
               "updatedAt": "2020-04-14T02:43:00Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 573,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDAzOTM2MzY2",
+      "title": "Answer #551: explore how bundles might but probably don't help anti-adblockers.",
+      "url": "https://github.com/WICG/webpackage/pull/573",
+      "state": "MERGED",
+      "author": "jyasskin",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "@pes10k @shwetank ",
+      "createdAt": "2020-04-15T19:05:52Z",
+      "updatedAt": "2020-04-20T15:47:27Z",
+      "closedAt": "2020-04-20T15:47:06Z",
+      "mergedAt": "2020-04-20T15:47:06Z",
+      "mergedBy": "jyasskin",
+      "comments": [
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "I still disagree with this, as stated from the private thread you created.  Here is another example that has the same underlying properties.   Take a fingerprinting script, or some other resource (many) users don't want, and that many filter lists target.\r\n\r\nCurrently, a site could choose to include it in any of the following ways:\r\n1. Inline the code (best defense against filter lists since there is no URL to target, but expensive for the site bc can cause bad performance, can't be deferred / async'ed, etc)\r\n2. src= include the code from the original host (easiest option for filter lists to target, easiest deployment option for the site)\r\n3. move the code first party, src= it as its own resource first party (difficult but not impossible for filter lists to target, medium work for site)\r\n4. if the code allows it, include the code in a build process (rollup, etc) (basically impossible for filter lists to target, medium for the site, since this code again can't be defer'ed / asynced)\r\n\r\nIn a web bundle world, the site wishing to do (in this case) fingerprinting, doesn't have to do any of the cost / benefit trade off discussed above.  They get a new, strictly superior to all of the above, option: deferable / async able code without a URL filter lists can target.\r\n\r\nSince web bundles give sites a new way of delivering code to users, in a way thats effectively unblockable by filter lists, in a way that has zero additional marginal cost to the site, i don't think you can say this helps adblockers; i think the proposal _at best_ is neutral to adblockers, and almost certainly (very) net negative",
+          "createdAt": "2020-04-15T19:23:32Z",
+          "updatedAt": "2020-04-15T19:23:32Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@pes10k Can you clarify why bundles have \"zero additional marginal cost to the site\"? It seems like a specialization of your (3), first-party delivery of the resource, but perhaps I'm missing something.\r\n\r\nFurthermore, the same randomization to avoid filtering could be achieved through 1p delivery without bundles. For instance, one could:\r\n - Set up a URL router that says \"if path starts with `/blog/` and its sha256 % N == 0, then serve JS\".\r\n - Modify the blog generator tool to try multiple variations of the slug (e.g. by adding/removing stopwords) until a non-matching sha256 is found.\r\n - Pick an N that's large enough so the expected number of variations needed to try is low, but small enough so it's not too costly to build convincing-looking fake blog URLs.\r\n\r\nIt seems like this would require a similar amount of work from the site -- the most difficulty likely being in making the HTML template dynamic (e.g. without sacrificing the utility of caching gateways).",
+          "createdAt": "2020-04-15T20:21:49Z",
+          "updatedAt": "2020-04-15T20:28:29Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "@twifkak\r\n\r\n> zero marginal cost\r\n\r\nI mean that since the code is already delivered / downloaded as part of the bundle, there is no additional cost to making it an async request vs inlining it.\r\n\r\n> seems like a specialization of your (3)\r\n\r\nTrackers are strictly better in web bundling than in case 3 for two reasons:\r\n\r\n - A site needing to do this w/o web bundles would need to take care to avoid name / URL collisions with other resources the were serving. These are the kinds of patterns filter lists look for. Web bundles free the tracker from even this constraint\r\n - the tracker reduces the benefit to the defender in a web bundle world, since the defender has already paid the network cost for the unwanted resource\r\n\r\n> the same randomization to avoid filtering could be achieved through 1p delivery without bundles\r\n\r\nSure, im not arguing that web bundling makes something possible thats currently impossible. Im saying it changes something thats currently moderately-difficult and costly into something easy and free (to the tracker / site / etc).",
+          "createdAt": "2020-04-15T20:31:32Z",
+          "updatedAt": "2020-04-15T22:04:53Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@pes10k\r\n\r\n> I mean that since the code is already delivered / downloaded as part of the bundle, there is no additional cost to making it an async request vs inlining it.\r\n\r\nI see, I think... but can't the site choose not to include the 3p script in the bundle? IIUC navigation to bundles still allows `fetch`, albeit with a different `Origin` header.\r\n\r\n> A site needing to do this w/o web bundles would need to take care to avoid name / URL collisions with other resources the were serving.  These are the kinds of patterns filter lists look for.  Web bundles free the tracker from even this constraint\r\n\r\nI think a bundler would still need to avoid name collisions within a bundle, at the very least, but I agree it's easy to do that while avoiding detection. As for collisions between bundles and the unbundled web, I think it depends:\r\n 1. Could the UA choose a cached resource over a bundled one?\r\n 2. Could a SW intercept bundled requests?\r\n\r\n> Im saying it changes something thats currently moderately-difficult and costly into something easy and free (to the tracker / site / etc).\r\n\r\nI'm not convinced it's more difficult without bundles, but I could be. My example involves changes that would mostly be internal to the CMS, and hence the cost amortized across its customers. Each customer would need to upgrade its version (something it may already doing regularly), and potentially modify a bit of frontend config (depending on the CMS -- some are end-to-end).\r\n\r\nPS -- Sorry I edited your comment. I can't internet. I believe/hope I returned it to its original state.",
+          "createdAt": "2020-04-15T22:06:35Z",
+          "updatedAt": "2020-04-15T22:09:13Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "I definitely don't mean to claim bundles make things harder for attackers. As a new option for attackers that doesn't close off any of the old options, it can't possibly make things harder; the best we can hope for is that it doesn't make things easier. I checked, and I think the text says the right thing about this.\r\n\r\nhttps://github.com/WICG/webpackage/pull/573#issuecomment-614233247 is wrong about the performance implications of inlining code or including it in an existing build process. `defer` is basically equivalent to putting the inline `<script>` at the end of its document or to wrapping the code in `window.addEventListener('DOMContentLoaded', ()=>{/* the code */});`, and there are more ways to explicitly defer work today.\r\n\r\n[rollup.js](https://rollupjs.org/)'ed scripts deliver bytes at approximately the same time a web package would and defer work just as well.\r\n\r\nI've added a paragraph talking about non-ad scripts, since my initial text here ignored that use for \"ad\" blockers. Fingerprint.js already gives step-by-step instructions for integrating it into a build process, so it's not like web packages could make the bar any lower.",
+          "createdAt": "2020-04-16T22:54:59Z",
+          "updatedAt": "2020-04-16T22:54:59Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzk2MTIxNzQz",
+          "commit": {
+            "abbreviatedOid": "34908ad"
+          },
+          "author": "irori",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "As we are planning to request a TAG review of this proposal soonish, it would be nice to include this content.",
+          "createdAt": "2020-04-20T03:44:34Z",
+          "updatedAt": "2020-04-20T03:44:34Z",
+          "comments": []
         }
       ]
     }
