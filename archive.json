@@ -1,6 +1,6 @@
 {
   "magic": "B8n2c@e8kvfx",
-  "timestamp": "2020-04-20T15:49:47.165902+00:00",
+  "timestamp": "2020-04-29T23:45:18.827474+00:00",
   "repo": "WICG/webpackage",
   "labels": [
     {
@@ -8509,7 +8509,7 @@
       ],
       "body": "Currently there is no enforced relationship between the URL used to look up resources in the package, and where the resource came from online.  Consistent URLs are an imperfect, but extremely useful signal for privacy protecting tools (filter lists, adblockers, disconnect, Firefox and Edge built in protections, safe browsing, etc.).  \r\n\r\nThe current proposal would allow for all WebPackage'd sites to circumvent all URL based tools by simply randomizing URLs as a post processing step in [amppackager](https://github.com/ampproject/amppackager) or similar.  This could even be done per-request per page.  Since URLs are effectively just indexes into the package (and not keys for decision making, caching, etc), they can be changed arbitrarily w/o affecting how the package loads, but preventing the URL-based privacy preserving tools from running.\r\n\r\nA (partial) possible solution to the problem is to play a [cut-and-choose](https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/zhu), commitment-auditing style games with the URLs.  At package time, the packager has to make commitments about which URL each resource came from, and the size, shape etc of the resource.  These can be made / mixed with the URL of the page being packaged. \r\n\r\nThe client can then, w/ some probability, audit some number of the URLs in the package.  If the commitments fail, deterring counter measures can be taken against the packing origin (e.g. global decaying block list of misbehaving packagers, etc).",
       "createdAt": "2020-01-28T21:18:35Z",
-      "updatedAt": "2020-04-01T01:34:13Z",
+      "updatedAt": "2020-04-24T20:48:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -8525,6 +8525,132 @@
           "body": "just wanted to check in on this, has anything changed / any updates?\r\n\r\n",
           "createdAt": "2020-04-01T01:34:13Z",
           "updatedAt": "2020-04-01T01:34:13Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "Copying comments over from the closed PR thread in https://github.com/WICG/webpackage/pull/573, and editing slightly given the new context\r\n\r\nIn general, i'm happy to continue discussing point by point above, but lets not loose the forest for the trees.  The general claim is that:\r\n\r\n1) consistent, descriptive URLs are useful for adblocking (edit, and content blocking in general)\r\n2) this proposal reduces the consistency and descriptiveness of URLs by changing them into arbitrary, opaque indexes into an archive.\r\n\r\nAre we disagreeing about either of the above points?\r\n\r\nSince rollup got mentioned above, its a perfect example here.  Before rollup-and-the-link world, content blocking was ideal; URLs described (both conceptually, and frequently) one resource, and the user agent could reason about each URL independently.  Post rollup-world, URLs are less useful (though not useless), since JS URLs now describe (often) many resources, about which its increasingly difficult for the UA to reason individually about.  (on going research here, etc).  URLs represent multiple interests, the user will often feel differnetly about, but which UA's are (generally) forced into an all or nothing position about.\r\n\r\nThis proposal does the same thing, _but for websites entirely_!  The UA effectively gets just one URL to reason about (the entire web package), but looses the ability to reason about sub resources.  This is very (very!) bad if we intend the web to be an open, transparent, user-first system!\r\n\r\nOkie, now, replying to individual points, but eager to not loose site of the above big picture\u2026\r\n\r\n@jyasskin \r\n> #573 (comment) is wrong about the performance implications\r\n\r\nThis is not correct.  Its _partially_ correct in v8, bc in some cases v8 will defer the parsing of function bodies, but (i) even then there are exceptions, and (ii) I have even less familiarity with how other JS engines do this.  I know that, for example, spidermonkey does not _not_ defer parsing in cases where v8 will (e.g. JS in HTML attributes, onclick=X), but I dont have enough information to say in general (and I know even less about JavaScriptCore).  But, point is\r\n\r\n1. there is in all cases some difference, because there is at lease _some_ additional parsing and executing going on\r\n2. there may be significant difference in other platforms\r\n3. caching makes all this even more different, as platforms may differ on how and when they cache inline script\r\n4. none of this difference hangs on standards defined behavior, and so is not a sound basis for this standard to rely on\r\n\r\n@twifkak \r\n> can't the site choose not to include the 3p script in the bundle\r\n\r\nSure, a site could choose this, but i'm not sure I follow the point.  My point isn't that sites _have_ to evade content blockers in the proposal, its that it gives them new options to circumvent the user's goals / aims / wishes.\r\n\r\n> As for collisions between bundles and the unbundled web\u2026\r\n\r\nAgain, im not sure I follow you here.  My point is that it'd be simple to change URLs during \"bundling\" so that they're (i) impossible for content blockers to reason about, and (ii) ensure they don't collide with real world urls.  Say, every bundled resource has its URL changed to be a random domain 256 character domain and path.\r\n\r\n> My example involves changes that would mostly be internal to the CMS, and hence the cost amortized across its customers\r\n\r\nNeeding to update the large number of existing CMS's seems like a perfect example of why this is difficult for sites!  Let alone other costs (loosing cache, in your hash guessing scheme paying an extra network request and on some platform OS thread or process, making static sites unworkable, etc etc etc). \r\n\r\nTL;DR as much as possible, \r\n\r\n1. Yes URLs _can_ be opaque on the web no2\r\n2. they are never the less still useful (see Google safe browsing, EasyList, disconnect, caching policies etc etc etc)\r\n3. the claim isn't that this proposal does something to fundamentally change URLs, its that it (i) takes something expensive and possible for the server to do now, and makes it free and trivial, and (ii) makes (for packages) the entire package into a single yes / no decision for the UA, where before the UA had far more information and ability to choose / advocate on behalf of the user\r\n",
+          "createdAt": "2020-04-20T23:49:06Z",
+          "updatedAt": "2020-04-20T23:49:06Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> 2. this proposal allows reduces the consistency and descriptiveness of URLs by changing them into arbitrary, opaque indexes into an archive.\r\n\r\n\"Disagreeing\" implies 100% confidence to me, so let's just say I'm skeptical of this. I'm certainly counter-arguing the point.\r\n\r\n> This proposal does the same thing [as rollup]\r\n\r\nExcept that it establishes distinct boundaries between resources. It may be easier to detect matching JS subresources inside a bundle than inside a rollup, since they are distinct and the publisher has less incentive to mangle them (no need to avoid JS global namespace conflicts).\r\n\r\nIt could include rollup'd JS payloads that contain a mix of 1p and 3p content, but I don't see how doing so helps evade detection over unbundled rollup.\r\n\r\n> > can't the site choose not to include the 3p script in the bundle\r\n> \r\n> Sure, a site could choose this, but i'm not sure I follow the point. My point isn't that sites _have_ to evade content blockers in the proposal, its that it gives them new options to circumvent the user's goals / aims / wishes.\r\n\r\nI was responding to your comment \"web bundles give sites a new way of delivering code to users... in a way that has zero additional marginal cost... since the code is already delivered / downloaded as part of the bundle, there is no additional cost to making it an async request vs inlining it\".\r\n\r\nWe're somewhat in subjective space here, but I'd argue that the apples-to-apples comparison is:\r\n - unbundled: link to 3p script _vs_ rollup or inline or 1p mirror\r\n - bundled: link to 3p script _vs_ rollup or inline or 1p mirror or bundle\r\n\r\nRegarding bytes delivered over the network from edge server to browser, bundling doesn't appear to change the cost relative to baseline. I haven't thought through bytes at rest, or between various layers of serving hierarchy. I wonder the degree to which such a cost is the limiting factor right now.\r\n\r\nIt does offer another option for 1p-ifying the script in order to evade detection, but one that doesn't seem to offer the site any reduced marginal cost.\r\n\r\n> > As for collisions between bundles and the unbundled web\u2026\r\n> \r\n> Again, im not sure I follow you here. My point is that it'd be simple to change URLs during \"bundling\" so that they're (i) impossible for content blockers to reason about, and (ii) ensure they don't collide with real world urls. Say, every bundled resource has its URL changed to be a random domain 256 character domain and path.\r\n\r\nI was arguing that it might not be so simple, depending on the circumstances. HTTP cache and ServiceWorker might offer spaces for collision between bundled URLs and unbundled URLs. Thus, making random paths undetectable seems similarly hard in both the unbundled and bundled world.\r\n\r\nYour point about random domains is interesting. In order to be undetectable, the random domain+paths have to look real. Given that servers may vary their responses to different requestors, it's impossible to know that a real-looking 3p URL doesn't name a real resource (and that it won't over the length of the bundled resource's lifetime). However, it's probably sufficient to assert no collision on the cache (e.g. double- or triple-) key. A bundle generator need only an avoid-list of 3p URLs the site uses. I'm not sure if this allows an easier implementation than [my proposed path randomizer](https://github.com/WICG/webpackage/pull/573#issuecomment-614260542), though.\r\n\r\n> Needing to update the large number of existing CMS's seems like a perfect example of why this is difficult for sites!\r\n\r\nIsn't an update also necessary for adding bundle support?\r\n\r\n> Let alone other costs (loosing cache, in your hash guessing scheme paying an extra network request and on some platform OS thread or process, making static sites unworkable, etc etc etc).\r\n\r\nIn these aspects, it would be interesting to compare the costs between bundled and unbundled blocklist-avoidance in more detail.",
+          "createdAt": "2020-04-20T23:56:40Z",
+          "updatedAt": "2020-04-20T23:56:40Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "> It could include rollup'd JS payloads that contain a mix of 1p and 3p content, but I don't see how doing so helps evade detection over unbundled rollup.\r\n\r\nThere are big differences.  You can't roll up 3p scripts (easily), and you can't roll up the other kinds of resources folks might want to block (images, videos, etc etc).\r\n\r\nI didn't mean to suggest that this is just like rollup on a technical level; only that it further turns websites into black boxes that UA's can't be selective about / advocate for the user in, and in that way was similar to rollup.\r\n\r\n> It does offer another option for 1p-ifying the script in order to evade detection, but one that doesn't seem to offer the site any reduced marginal cost.\r\n\r\nThe difference here is that to get the kind of evasion you can get in a web bundle, you'd need to roll into an existing script, inline the code, or pull it into a 1p URL (that could itself be targeted by filter lists, etc).  In a WebBundle world, the bundler has the best option for evading, without having to do the more difficult work (i.e. zero marginal cost).\r\n\r\nI'm fine to say _small_ marginal cost if that gets us by this point, but the general point is that sites get new evasion capabilities at-little-to-no-cost.\r\n\r\n> A bundle generator need only an avoid-list of 3p URLs the site uses. I'm not sure if this allows an easier implementation than my proposed path randomizer, though.\r\n\r\nIts easier bc\r\n\r\n1. You have to just write the evasion in one place (the bundler) instead of changing ever app on the web!\r\n2. You get the evasion / opaque URL without needing to do network guess games, etc, which can be expensive (think Drupal plus apache!) or straight up impossible (static site generators)\r\n\r\n> Isn't an update also necessary for adding bundle support?\r\n\r\nI can't see why.  At least for sites where the bundle content is static (AMP like pages), I have all the information I need to build the bundle just by pointing at an existing site / URL, no changing of CMS needed (you might want to add options for excluding certain domains, resources, etc, but thats all equally easy and do-once-for-the-whole-web)\r\n",
+          "createdAt": "2020-04-21T00:11:09Z",
+          "updatedAt": "2020-04-21T00:11:09Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > Isn't an update also necessary for adding bundle support?\r\n> \r\n> I can't see why. At least for sites where the bundle content is static (AMP like pages), I have all the information I need to build the bundle just by pointing at an existing site / URL, no changing of CMS needed (you might want to add options for excluding certain domains, resources, etc, but thats all equally easy and do-once-for-the-whole-web)\r\n\r\nBy \"I\" in your second sentence, who do you mean? If \"a distributor\" or \"the site's CDN\", why would they limit such a technique to unsigned bundles? The argument that pulling content into a 1p URL is difficult enough to impede adoption doesn't seem to apply in this case. (edit: Likewise with a \"2p\" subdomain dedicated to mirroring content of a given 3p.)\r\n\r\nThe degree to which the HTML is amenable to static analysis seems to affect the feasibility of such an implementation, but not along the bundled-or-not axis.",
+          "createdAt": "2020-04-21T01:07:44Z",
+          "updatedAt": "2020-04-21T01:13:18Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "in that particular case, i just meant a site maintainer looking to create a web bundle.  You were making the argument (if i understood correctly) that it would be the same amount of work to rewrite a CMS to create web bundles, as it would be to rewrite a CMS to do other kinds of URL-based filtering evasion.  My point was just that no CSM rewriting would be needed at all to web bundle.  I can treat the server side code as a blackbox, poke at it with automation, and create a bundle from the results (i.e. if I can create a record-replay style HAR of the site, i can create a web bundle of the site).\r\n\r\n(I also think this is not the right way to think about the comparison, since rewriting the CMS is just one of many things you'd need to change to do filter list evasion: caching, performance concerns, etc etc etc)",
+          "createdAt": "2020-04-21T01:25:17Z",
+          "updatedAt": "2020-04-21T01:25:17Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ah, I see. I lack sufficient awareness of sites and their owners, to judge whether \"update my CMS version\" or \"install an HTTP middlebox\" is harder, on average (including auxiliary changes such as you mention, in both cases). I could see it going both ways.",
+          "createdAt": "2020-04-21T01:35:55Z",
+          "updatedAt": "2020-04-21T01:35:55Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "I don't think its likely useful for us to speculate about which is easier in general, but at the least I think / hope we can agree on:\r\n\r\n1) Web packaging would allow new categories of folks to obscure URLs that currently can't, bc they're not in a position to run middleware, like static site generators, people on shared hosting that scrapes down to apache and (S)FTP, people with heavy cache needs because of DDOS or other concerns, etc\r\n2) It would allow them to do so w/o having to pay the costs they'd pay to do something similar on live websites (again caching, handling extra requests due to hash-misses in the scheme you proposed, etc)\r\n",
+          "createdAt": "2020-04-22T02:30:49Z",
+          "updatedAt": "2020-04-22T02:30:49Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "I appreciate the focus on the high-level problem, but I need you to be precise about a single situation where web packaging would hurt ad blocking, so we can figure out if that's actually the case. If I answer the first situation, and your response is to bring up a second without acknowledging that you were wrong about the first, we're not going to make progress.\r\n\r\nFor example, take a static site running on apache with no interesting modules, where the author can run arbitrary tools to generate the files they then serve statically. That author wants to run fingerprint.js hosted by a CDN, but it's getting blocked by an ad blocker. So they download the script to their static site, naming it `onIhE6oDT7A7LKUj.js` so as not to be obvious about it, and refer to that instead. They lose caching on browsers without partitioned caches. Putting it in a web package doesn't get them that caching back, and might lose same-site caching.\r\n\r\nSo what's the most compelling situation where web packaging does help the author avoid an ad blocker?",
+          "createdAt": "2020-04-23T18:03:43Z",
+          "updatedAt": "2020-04-23T18:03:43Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "> I appreciate the focus on the high-level problem, but I need you to be precise about a single situation where web packaging would hurt ad blocking, so we can figure out if that's actually the case. If I answer the first situation, and your response is to bring up a second without acknowledging that you were wrong about the first, we're not going to make progress.\r\n\r\nWhich point are you referring to?  About defer?  I referred to that at length above.  What did i miss?\r\n\r\n> So they download the script to their static site, naming it onIhE6oDT7A7LKUj.js\r\n\r\nI similarly feel like we've discussed this several times. Its problem enough to have to create a rule per site (static site copies file locally and serves from one or a fixed number of URLs), but with packaging you can easily create a new URL for the same resource _per page_ (or even _per bundle_, or _per request_).\r\n\r\nThe point isn't that you can't do these things on the web today, its that packing makes them trivial and free to do.  I really feel like this point has been made as well as it can be made, and that the gap between whats _possible_ on the web today, and what web packaging would make _easy and free_, is large and self evident.\r\n\r\nI don't think arguing about this same point further is productive.  If I haven't made the case already, more from me is not likely to be useful.  If you're curious how other filter list maintainers or content blockers would feel about it, it'd be best to bring them back into the conversation.",
+          "createdAt": "2020-04-23T18:14:58Z",
+          "updatedAt": "2020-04-23T18:14:58Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "Ok, so you're claiming it's difficult for the static site to have `foo.html` refer to `onIhE6oDT7A7LKUj.js`, but `bar.html` refer to `GBtTuFJWnrLgXMs6.js` with the same content? Why is that?\r\n\r\nHaving it different per request breaks your assumption that this is a static site running no interesting middleware, so can't happen.",
+          "createdAt": "2020-04-23T18:18:58Z",
+          "updatedAt": "2020-04-23T18:18:58Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "Im saying that each step like that is additional work, all of which makes it more difficult for sites to do, and so less likely.\r\n\r\nAgain, you're arguing its possible, im happy to ceed that; im arguing that your proposal makes it much easier.  As evidence, you keep suggesting extra work sites could do (some easy, some costly) to get a weaker form of what your proposal gives them. Thats making my point twice.\r\n\r\nPut differently, there are expensive services sites subscribe to that use dynamic URL tricks to avoid their unwanted resources winding up on filter lists (as said before Admiral is the highest profile, but not the only one).  Your proposal gives a _stronger_ ability to avoid content blocking tools (or security and privacy tools like ITP, ETP, disconnect), to all sites for free.\r\n\r\n> Having it different per request breaks your assumption that this is a static site running no interesting middleware, so can't happen.\r\n\r\nLike i said in https://github.com/WICG/webpackage/issues/551#issuecomment-616895088, I can build a bundle by pointing a web crawler at my site, (a la catapult or record-replay or anything else) and then turn that into a bundle; there is no middleware needed.\r\n\r\nSincerely, I've explained these points fully and to the best of my ability.  If there are new points of disagreement, lets move the conversation to those.  Otherwise, i think we've hit stalemate and it'd be best to either bring in other opinions from folks who have a strong interest in content blocking, and / or to just move the disagreement to another forum (the larger web community, TAG, etc)",
+          "createdAt": "2020-04-23T18:38:45Z",
+          "updatedAt": "2020-04-23T18:38:45Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I don't think its likely useful for us to speculate about which is easier in general\r\n\r\nHappy to discuss a different aspect. I think we got to this place because we were trying to address [your earlier comment](#issuecomment-616868985) that:\r\n\r\n> this proposal reduces the consistency and descriptiveness of URLs by changing them into arbitrary, opaque indexes into an archive.\r\n\r\nI think we agree that it changes URLs into arbitrary, opaque indexes only to the extent that they aren't already. Obviously they can be used that way today:\r\n\r\n 1. URLs may be arbitrary indexes; my [sha example](https://github.com/WICG/webpackage/pull/573#issuecomment-614260542) tried to demonstrate an example of something that looks as arbitrary as possible to the outside user, while being stateless.\r\n 2. Servers may even Vary by Referer, or by some server-side user fingerprint (e.g. IP plus low-precision timestamp plus header order). Given that, one could imagine a stateful implementation that generates entirely arbitrary URLs.\r\n\r\nSo it's more gray-area than that. It's about prevalence. That's where ease of adoption came into the discussion. If you think there are other axes that affect prevalence (e.g. ease of revenue generation), we should discuss those as well.\r\n\r\nStill, it seems like your [recent comment](https://github.com/WICG/webpackage/issues/551#issuecomment-618580286) discusses ease/difficulty of adoption, so I'm guessing your comment was narrower in scope. You're just saying the relative ease of CMS upgrade vs gateway install is not worth discussing because not all site owners run CMSes. That's fair, but I think it should also be fair that \"# of site owners who meet this constraint\" is a relevant variable. For instance, \"bundles make it easier to avoid adblockers when running a site in [Unlambda](http://www.madore.org/~david/programs/unlambda/)\" is uninteresting, unless it leads to a broader issue.\r\n\r\n> 1. Web packaging would allow new categories of folks to obscure URLs that currently can't, bc they're not in a position to run middleware, like static site generators, people on shared hosting that scrapes down to apache and (S)FTP, people with heavy cache needs because of DDOS or other concerns, etc\r\n\r\nI when you say \"folks [who can't] run middleware\", I assume you're not including commercial CDNs in your definition of middleware, but rather custom software running in their internal stack, even though \"heavy cache needs\" are usually met through the addition of edge infrastructure, usually provided by CDNs.\r\n\r\nOn the one hand, I think that's a limiting definition, because if this technique is profitable enough to become prevalent, then it's likely that either at least one CDN would add support for this, or at least one person would publish how to do it on existing edge compute services provided by popular CDNs.\r\n\r\nOn the other hand, I'll try to stick with the constraint. Both [nginx](http://nginx.org/en/docs/http/ngx_http_core_module.html#error_page) and [Apache](https://httpd.apache.org/docs/2.4/custom-error.html) provide support for custom error pages. So any URL that's not generated by the static site generator could be served fingerprint.js. (Might be able to further restrict this with an [if](http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if) [directive](https://httpd.apache.org/docs/2.4/mod/core.html#if) on some header that distinguishes navigations from subresource fetches, so that users still see normal 404 pages.)\r\n\r\n> 2. It would allow them to do so w/o having to pay the costs they'd pay to do something similar on live websites (again caching, handling extra requests due to hash-misses in the scheme you proposed, etc)\r\n\r\nI believe many popular CDNs provide some means of manipulating the cache key. For instance, [here's varnish](https://varnish-cache.org/docs/trunk/users-guide/vcl-hashing.html). I'm not familiar enough with vcl to know how expressive that language is, so this is just speculation:\r\n\r\nMake the cache key based on hash(url) mod N. Make N high enough to guarantee ~no collisions on real pages. Make N low enough that you can deliberately generate enough fake URLs that all have the same hash mod N.\r\n\r\nIf this sounds a bit like my old scheme, it's because I'm not very clever. Forgive the lack of creativity. :)",
+          "createdAt": "2020-04-23T19:14:57Z",
+          "updatedAt": "2020-04-24T07:39:36Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "\"For free\" is not true since it's not like the bundling tool we write is going to rename subresources to obfuscated strings, but I agree that we need some other folks involved to figure out who's confused here. We'll send a TAG review soon, and the privacy consideration about this should help them know to think about it.",
+          "createdAt": "2020-04-23T21:10:37Z",
+          "updatedAt": "2020-04-23T21:10:37Z"
+        },
+        {
+          "author": "KenjiBaheux",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm sorry but when I read this:\r\n\r\n> I don't think its likely useful for us to speculate about which is easier in general, but at the least I think / hope we can agree on\r\n\r\nand this:\r\n\r\n> Again, you're arguing its possible, im happy to ceed that; im arguing that your proposal makes it much easier. \r\n\r\n... it seems hard to reconcile. \r\n\r\nI may have missed it but was there a solid explanation, not a speculation or belief, of why it's \"much easier\" with the proposal vs. without?",
+          "createdAt": "2020-04-24T01:54:34Z",
+          "updatedAt": "2020-04-24T01:54:34Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "I'll going to attempt to summarize my case here one last time, and then stop, because i really think we're retreading the same points over and over. If the following doesn't express the concern, more words from me aren't going to help.\r\n\r\n1. The proposal turns the package *and all the contents in the package* into an all or nothing decision.  It's trivially easy for the packager to randomize the URLs or otherwise strip all information out of the URL.\r\n2. Even worse, the bundler can change the URLs of the bundled resources to be ones that it knows wont be blocked, because they're needed for other sites to work.  E.g. say i want to bundle `example.org.com/index.html`, which has some user-desirable code called `users-love-this.js`, and some code people def don't want called `coin-miner.js`.  Assume filter lists make sure to not block the former, and intentionally block the latter. When I'm building my bundle, i can rename `coin-miner.js` to be `users-love-this.js`, while leaving the \"real web\" `example.org/{users-love-this.js,coin-miner.js}` resources unmodified.  So its worse than URLs having no information, URLs in bundles can have _negative_ information; URLs can be misleading, by pointing to something different in the bundle than outside the bundle (or having the same URL point to different resources in different bundles)\r\n3. All the above can be done treating the page / site being bundled as a black box.\r\n4. Sites _can_ currently play games with urls, but the non-web-bundle world constrains this in many ways.  Current sites are constrained in how much URL obfuscation they can play by some combination of the below costs (partial list):\r\n    (i) additional network requests (the hash guessing games mentioned above)\r\n    (ii) maintaining additional state somewhere to map between the different names for the same file (on disk, in db, somewhere).  This is especially difficult if you expect most of your requests to be fulfilled from CDNs / edge caches\r\n    (iii) the high performance / caching / etc costs from inlining resources\r\n    (iv) all sorts of costs from moving from static sites to dynamic sites\r\n    (v) breaking existing references to existing pages\r\n    (vi) sinking cache hit rates\r\n    (vii) implementation complexity\r\n5. Even if all the costs described in #4 went to zero, it would at the very least require modifications to the millions of sites / applications on the web.  With web bundles, you just need to write one tool once to turn the entire web into arbitrary URLs\r\n6. Given you're going to build a web bundle with of a set of resources, obfuscating the URLs in the bundle has exactly the same cost / performance characteristics as honest URLs (i.e. zero marginal cost).  This is not true of any of the suggested ways of obfuscating URLs in an application\r\n7. Examples that involve any level of cleverness between multiple parties (e.g. custom CDN modifications), increasing the number of non-cacheable responses, etc are making my point.  Much more of the web looks like \"install wordpress on hostmonster, copy paste your tracking script snippit in the template, done\" then Google-level dynamic web applications who can reason differently about the core application, middleware, reverse proxies, and CDNs.\r\n8. Anyone who maintains a filter list or similar can easily testify that websites / trackers / etc play these kinds URL games all the time, and will do much more if given the opportunity (there are businesses who do exactly this as their entire business model).  Things like those mentioned in 4 are important, practical, real world constraints that keep things from getting worse.\r\n\r\nSo, i stand by my original claim: the proposal turns something that is currently possible (but constrained by the points in #4) into something that can be done at no additional cost to the bundler (once the approach is implemented, once, in any bundling tool).\r\n\r\nPut differently, put yourself in the shoes of someone who runs a drupal or wordpress site on godaddy or pantheon or wpengine (so cheap-as-possible hosting to real-money-PAS deployments).  Which is the easier task: \r\n1) implementing and paying for a way to do URL obfuscation from your drupal or wordpress application\r\n2) do URL obfuscation when building a web bundle?",
+          "createdAt": "2020-04-24T03:05:35Z",
+          "updatedAt": "2020-04-24T03:05:35Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "It's just fundamentally confused to write \"With web bundles, you just need to write one tool once [to rewrite the source and destination of URLs]\" but deny \"With Wordpress, you just need to write one plugin once\". I think other reviewers will understand that.",
+          "createdAt": "2020-04-24T03:27:58Z",
+          "updatedAt": "2020-04-24T03:27:58Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "thats not the claim at all, anywhere @jyasskin.\r\n\r\nThe claim is that 1) there are more types of sites on the web than wordpress, 2) you would not do that in most wordpress applications because you need to cache everything aggressively in wordpress to keep it from falling over, 3) if you did that in wordpress you would have all the costs mentioned in 4.",
+          "createdAt": "2020-04-24T03:31:28Z",
+          "updatedAt": "2020-04-24T03:31:28Z"
+        },
+        {
+          "author": "twifkak",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> i really think we're retreading the same points over and over.\r\n\r\nI think there is a fair bit of repetition in the discussion, but some new stuff over time, too. I still believe that we could resolve this difference of opinion (either by convincing one of us, or revealing the underlying axiomatic difference), but yeah it would take a lot of time that maybe neither of us has.\r\n\r\nFWIW, I don't think you're being disingenuous by not \"acknowledging you were wrong\" about anything. I think its a classic problem of conversations (especially textual ones) in whether to treat silence as concurrence. Whenever discussing, my primary goal is to convince myself (in any direction); thus, I'm happy to keep my prior beliefs until an update. As for convincing others, I believe they have to do the hard work of wanting to be convinced (in any direction), and from that will follow the right questions.\r\n\r\nThat said, I'll respect your decision to stop.\r\n\r\nJust wanted to make one comment. :)\r\n\r\n> 5. Even if all the costs described in #4 went to zero, it would at the very least require modifications to the millions of sites / applications on the web.  With web bundles, you just need to write one tool once to turn the entire web into arbitrary URLs\r\n\r\nI focused on a non-middleware solution in my [last comment](#issuecomment-618604536) because you had suggested that as the case to focus on in your [previous comment](#issuecomment-617511154).\r\n\r\nI also believe it would be feasible to write a gateway that randomizes unbundled URLs (rewriting HTML minimally) using a stateless method as I proposed earlier. It might even be possible to serve the unwanted JS at URLs that are otherwise used for navigational HTML, by varying on headers. A quick inspection of DevTools shows that Chrome varies `Accept` and `Upgrade-Insecure-Requests` between navigation and subresource requests. AFAICT, this could be deployed in one place, as an edge worker, and thus have minimal impact on cache hit ratio.",
+          "createdAt": "2020-04-24T20:41:13Z",
+          "updatedAt": "2020-04-24T20:48:31Z"
         }
       ]
     },
@@ -8671,6 +8797,38 @@
           "updatedAt": "2020-04-07T16:44:28Z"
         }
       ]
+    },
+    {
+      "number": 575,
+      "id": "MDU6SXNzdWU2MDc0ODM5NjA=",
+      "title": "Supporting TWAs and like cases",
+      "url": "https://github.com/WICG/webpackage/issues/575",
+      "state": "OPEN",
+      "author": "kenchris",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In Play Store you can currently publish your PWA as a TWA, but if you launch the app the first time and are offline then you will be met with the offline dinosaur.\r\n\r\nIt would be great if bundled packages can serve as a way to solve this by letting the TWA distribute a webpackage with the initial required resources",
+      "createdAt": "2020-04-27T11:51:03Z",
+      "updatedAt": "2020-04-27T11:51:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 576,
+      "id": "MDU6SXNzdWU2MDc0ODk2MTA=",
+      "title": "Network access",
+      "url": "https://github.com/WICG/webpackage/issues/576",
+      "state": "OPEN",
+      "author": "kenchris",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Reading this:\r\n\r\n![image](https://user-images.githubusercontent.com/1101339/80369842-39399f80-888f-11ea-9a9a-fe030b25772e.png)\r\n\r\nIt made me realize that Google Play is currently disallowing TWAs distributed to kids (Family Policy), it seems to have to do with the fact that websites might be able to replace the content as they have full network access, so it might make sense to take this into considerations and maybe disallow network traffic or restrict it somehow.",
+      "createdAt": "2020-04-27T12:00:06Z",
+      "updatedAt": "2020-04-27T12:00:06Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -44070,7 +44228,7 @@
       "labels": [],
       "body": "@pes10k @shwetank ",
       "createdAt": "2020-04-15T19:05:52Z",
-      "updatedAt": "2020-04-20T15:47:27Z",
+      "updatedAt": "2020-04-20T23:45:04Z",
       "closedAt": "2020-04-20T15:47:06Z",
       "mergedAt": "2020-04-20T15:47:06Z",
       "mergedBy": "jyasskin",
@@ -44109,6 +44267,27 @@
           "body": "I definitely don't mean to claim bundles make things harder for attackers. As a new option for attackers that doesn't close off any of the old options, it can't possibly make things harder; the best we can hope for is that it doesn't make things easier. I checked, and I think the text says the right thing about this.\r\n\r\nhttps://github.com/WICG/webpackage/pull/573#issuecomment-614233247 is wrong about the performance implications of inlining code or including it in an existing build process. `defer` is basically equivalent to putting the inline `<script>` at the end of its document or to wrapping the code in `window.addEventListener('DOMContentLoaded', ()=>{/* the code */});`, and there are more ways to explicitly defer work today.\r\n\r\n[rollup.js](https://rollupjs.org/)'ed scripts deliver bytes at approximately the same time a web package would and defer work just as well.\r\n\r\nI've added a paragraph talking about non-ad scripts, since my initial text here ignored that use for \"ad\" blockers. Fingerprint.js already gives step-by-step instructions for integrating it into a build process, so it's not like web packages could make the bar any lower.",
           "createdAt": "2020-04-16T22:54:59Z",
           "updatedAt": "2020-04-16T22:54:59Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "Now that this has been merged, where is the right place to continue this conversation?\r\n\r\nIn general, i'm happy to continue discussing point by point above, but lets not loose the forest for the trees.  The general claim (one that seems seconded by the content and adblocking tool libraries who \ud83d\udc4d 'ed the original issue before this was taken private) is that:\r\n\r\n1) consistent, descriptive URLs are useful for adblocking\r\n2) this proposal allows reduces the consistency and descriptiveness of URLs by changing them into arbitrary, opaque indexes into an archive.\r\n\r\nAre we disagreeing about either of the above points?\r\n\r\nSince rollup got mentioned above, its a perfect example here.  Before rollup-and-the-link world, content blocking was ideal; URLs described (both conceptually, and frequently) one resource, and the user agent could reason about each URL independently.  Post rollup-world, URLs are less useful (though not useless), since JS URLs now describe (often) many resources, about which its increasingly difficult for the UA to reason individually about.  (on going research here, etc).  URLs represent multiple interests, the user will often feel differnetly about, but which UA's are (generally) forced into an all or nothing position about.\r\n\r\nThis proposal does the same thing, _but for websites entirely_!  The UA effectively gets just one URL to reason about (the entire web package), but looses the ability to reason about sub resources.  This is very (very!) bad if we intend the web to be an open, transparent, user-first system!\r\n\r\nOkie, now, replying to individual points, but eager to not loose site of the above big picture\u2026\r\n\r\n@jyasskin \r\n> #573 (comment) is wrong about the performance implications\r\n\r\nThis is not correct.  Its _partially_ correct in v8, bc in some cases v8 will defer the parsing of function bodies, but (i) even then there are exceptions, and (ii) I have even less familiarity with how other JS engines do this.  I know that, for example, spidermonkey does not _not_ defer parsing in cases where v8 will (e.g. JS in HTML attributes, onclick=X), but I dont have enough information to say in general (and I know even less about JavaScriptCore).  But, point is\r\n\r\n1. there is in all cases some difference, because there is at lease _some_ additional parsing and executing going on\r\n2. there may be significant difference in other platforms\r\n3. caching makes all this even more different, as platforms may differ on how and when they cache inline script\r\n4. none of this difference hangs on standards defined behavior, and so is not a sound basis for this standard to rely on\r\n\r\n@twifkak \r\n> can't the site choose not to include the 3p script in the bundle\r\n\r\nSure, a site could choose this, but i'm not sure I follow the point.  My point isn't that sites _have_ to evade content blockers in the proposal, its that it gives them new options to circumvent the user's goals / aims / wishes.\r\n\r\n> As for collisions between bundles and the unbundled web\u2026\r\n\r\nAgain, im not sure I follow you here.  My point is that it'd be simple to change URLs during \"bundling\" so that they're (i) impossible for content blockers to reason about, and (ii) ensure they don't collide with real world urls.  Say, every bundled resource has its URL changed to be a random domain 256 character domain and path.\r\n\r\n> My example involves changes that would mostly be internal to the CMS, and hence the cost amortized across its customers\r\n\r\nNeeding to update the large number of existing CMS's seems like a perfect example of why this is difficult for sites!  Let alone other costs (loosing cache, in your hash guessing scheme paying an extra network request and on some platform OS thread or process, making static sites unworkable, etc etc etc). ",
+          "createdAt": "2020-04-20T22:29:42Z",
+          "updatedAt": "2020-04-20T22:29:42Z"
+        },
+        {
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "body": "The right place to continue discussion is probably #551, which I intentionally didn't close with this PR. FWIW, I disagree with (2): URLs are already arbitrary, opaque indexes into a server if the content wants them to be, and web packages don't make that worse. ",
+          "createdAt": "2020-04-20T23:31:30Z",
+          "updatedAt": "2020-04-20T23:31:30Z"
+        },
+        {
+          "author": "pes10k",
+          "authorAssociation": "NONE",
+          "body": "okie i will move this over there.  \r\n\r\n> URLs are already arbitrary, opaque indexes into a server if the content wants them to be, and web packages don't make that worse\r\n\r\n1. Yes URLs can be opaque\r\n2. they are never the less still useful (see Google safe browsing, EasyList, disconnect, caching policies etc etc etc)\r\n3. again the claim isn't that this proposal does something to fundamentally change URLs, its that it (i) takes something expensive and possible now, and makes it free and trivial, and (ii) basically makes every resource on a site into a single yes / no decision. \r\n\r\nI'm sure im repeating myself on the above, so for everyone's sake, i'll copy it over to #551 and then stop ",
+          "createdAt": "2020-04-20T23:45:04Z",
+          "updatedAt": "2020-04-20T23:45:04Z"
         }
       ],
       "reviews": [
@@ -44124,6 +44303,130 @@
           "createdAt": "2020-04-20T03:44:34Z",
           "updatedAt": "2020-04-20T03:44:34Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 574,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDA4MzE2NjY4",
+      "title": "Add more details and alternative designs to the subresource explainer.",
+      "url": "https://github.com/WICG/webpackage/pull/574",
+      "state": "MERGED",
+      "author": "jyasskin",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "* What makes a bundled subresource authoritative?\r\n* How else could we express scope?\r\n* Is the link type named right?\r\n\r\n@hayatoito",
+      "createdAt": "2020-04-24T04:03:31Z",
+      "updatedAt": "2020-04-29T23:42:11Z",
+      "closedAt": "2020-04-29T23:42:09Z",
+      "mergedAt": "2020-04-29T23:42:09Z",
+      "mergedBy": "jyasskin",
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzk5ODEzMDkz",
+          "commit": {
+            "abbreviatedOid": "55ad096"
+          },
+          "author": "kinu",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This lgtm, thanks for fleshing a lot more details.",
+          "createdAt": "2020-04-24T10:06:49Z",
+          "updatedAt": "2020-04-24T10:14:56Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\nWeb pages will declare that some of their subresources are provided by the\r\n```",
+              "createdAt": "2020-04-24T10:06:49Z",
+              "updatedAt": "2020-04-27T22:57:34Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Mzk5NjY1Nzk3",
+          "commit": {
+            "abbreviatedOid": "55ad096"
+          },
+          "author": "yoavweiss",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Overall looks good. A few questions/comments",
+          "createdAt": "2020-04-24T06:14:40Z",
+          "updatedAt": "2020-04-24T10:18:06Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Why not?",
+              "createdAt": "2020-04-24T06:14:40Z",
+              "updatedAt": "2020-04-27T22:57:34Z"
+            },
+            {
+              "originalPosition": 144,
+              "body": "Since the resource list is in HTML, it doesn't have to be base64 encoded & compressed. It could be a simple list of readable URLs, which then gets compressed with the rest of the HTML document.\r\nAt the same time, pre-compressing can reduce HTML tokenization load, and can guarantee brotli compression. I added that as a TODO to the doc.",
+              "createdAt": "2020-04-24T06:23:11Z",
+              "updatedAt": "2020-04-27T22:57:34Z"
+            },
+            {
+              "originalPosition": 146,
+              "body": "Fair point about the measurement. I've now published the methodology: https://github.com/yoavweiss/url_compression_experiments",
+              "createdAt": "2020-04-24T06:24:40Z",
+              "updatedAt": "2020-04-27T22:57:34Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NDAxMzgxODY0",
+          "commit": {
+            "abbreviatedOid": "3d6b71f"
+          },
+          "author": "jyasskin",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2020-04-27T22:50:49Z",
+          "updatedAt": "2020-04-27T22:57:44Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "I elaborated here. It's mostly that it's not necessary for a minimum-viable feature, but we can also learn more about the right API design by letting some sites unpack the bundle themselves.",
+              "createdAt": "2020-04-27T22:50:49Z",
+              "updatedAt": "2020-04-27T22:57:44Z"
+            },
+            {
+              "originalPosition": 144,
+              "body": "Good point. Leaving the URLs uncompressed may even help compress them against their other use in the same document.",
+              "createdAt": "2020-04-27T22:51:44Z",
+              "updatedAt": "2020-04-27T22:57:44Z"
+            },
+            {
+              "originalPosition": 146,
+              "body": "And I've linked it here. Thanks!",
+              "createdAt": "2020-04-27T22:56:39Z",
+              "updatedAt": "2020-04-27T22:57:44Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NDAxNjkxOTI1",
+          "commit": {
+            "abbreviatedOid": "caadcd1"
+          },
+          "author": "yoavweiss",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2020-04-28T10:12:13Z",
+          "updatedAt": "2020-04-28T10:12:49Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "OK. I'm not 100% convinced that SW should not be part of an MVP, but agree that polyfilling an API for them may worrk as a stop gap and can help inform what such an API should look like.",
+              "createdAt": "2020-04-28T10:12:13Z",
+              "updatedAt": "2020-04-28T10:12:49Z"
+            }
+          ]
         }
       ]
     }
